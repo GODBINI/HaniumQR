@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
     static final int GOOGLE_SIGN=123;
     private FirebaseAuth mAuth;
     Button btn_login,btn_logout;
-
+    Button btn_host,btn_guest;
     TextView text;
     ImageView image;
     ProgressBar progressBar;
@@ -59,6 +59,9 @@ public class MainActivity extends AppCompatActivity {
 
         btn_login=findViewById(R.id.login);
         btn_logout=findViewById(R.id.logout);
+        btn_host=findViewById(R.id.host);
+        btn_guest=findViewById(R.id.guest);
+
         text=findViewById(R.id.text);
         image=findViewById(R.id.image);
         progressBar=findViewById(R.id.progress_circular);
@@ -74,6 +77,19 @@ public class MainActivity extends AppCompatActivity {
 
         btn_login.setOnClickListener(v -> SignInGoogle());
         btn_logout.setOnClickListener(v->Logout());
+
+        btn_host.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+        btn_guest.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
 
         if(mAuth.getCurrentUser() !=null){
             FirebaseUser user = mAuth.getCurrentUser();
