@@ -1,11 +1,15 @@
 package com.example.haniumqr;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -37,6 +41,9 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.squareup.picasso.Picasso;
 
 
@@ -45,12 +52,18 @@ public class MainActivity extends AppCompatActivity {
 
     static final int GOOGLE_SIGN=123;
     private FirebaseAuth mAuth;
+    private DatabaseReference mDatabase;
     Button btn_login,btn_logout;
     Button btn_host,btn_guest;
     TextView text;
     ImageView image;
     ProgressBar progressBar;
     GoogleSignInClient mGoogleSignInClient;
+    String email2;
+
+
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,14 +72,19 @@ public class MainActivity extends AppCompatActivity {
 
         btn_login=findViewById(R.id.login);
         btn_logout=findViewById(R.id.logout);
-        btn_host=findViewById(R.id.host);
-        btn_guest=findViewById(R.id.guest);
+        btn_host=(Button) findViewById(R.id.host);
+        btn_guest=(Button)findViewById(R.id.guest);
+
 
         text=findViewById(R.id.text);
         image=findViewById(R.id.image);
         progressBar=findViewById(R.id.progress_circular);
 
+
+
         mAuth = FirebaseAuth.getInstance();
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+
         GoogleSignInOptions googleSignInOptions = new GoogleSignInOptions
                 .Builder()
                 .requestIdToken(getString(R.string.default_web_client_id))
@@ -81,12 +99,46 @@ public class MainActivity extends AppCompatActivity {
         btn_host.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                EditText editText = new EditText(MainActivity.this);
+                AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                builder.setMessage("사용하실 userID를 입력해주세요.")
+                        .setView(editText)
+                        .setPositiveButton("확인", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                String userID = editText.getText().toString();
+                                senddata senddata = new senddata(email2,1);
+                                mDatabase.child("User").child(userID).setValue(senddata);
+                                Intent intent = new Intent(MainActivity.this,HostMainActivity.class);
+                                intent.putExtra("userID",userID);
+                                intent.putExtra("email",email2);
+                                startActivity(intent);
+                                finish();
+                            }
+                        })
+                        .create()
+                        .show();
+                }
 
-            }
         });
         btn_guest.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                EditText editText = new EditText(MainActivity.this);
+                AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                builder.setMessage("사용하실 userID를 입력해주세요.")
+                        .setView(editText)
+                        .setPositiveButton("확인", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                String userID = editText.getText().toString();
+                                senddata senddata = new senddata(email2,2);
+                                mDatabase.child("User").child(userID).setValue(senddata);
+
+                            }
+                        })
+                        .create()
+                        .show();
 
             }
         });
@@ -151,6 +203,7 @@ public class MainActivity extends AppCompatActivity {
         if(user !=null){
             String name = user.getDisplayName();
             String email = user.getEmail();
+            email2 = email;
             String photo = String.valueOf(user.getPhotoUrl());
 
             text.append("Info : \n");
@@ -160,6 +213,11 @@ public class MainActivity extends AppCompatActivity {
             Picasso.get().load(photo).into(image);
             btn_login.setVisibility(View.INVISIBLE);
             btn_logout.setVisibility(View.VISIBLE);
+
+            btn_guest.setVisibility(View.VISIBLE);
+            btn_host.setVisibility(View.VISIBLE);
+
+
 
         }else {
 
@@ -179,4 +237,7 @@ public class MainActivity extends AppCompatActivity {
                         task -> { updateUI(null); });
 
     }
+
+
+
 }
