@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#2196F3"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="나의 호텔 관리"
+        android:textColor="#142794"
+        android:textSize="30dp"
+        android:textStyle="bold" />
+
+    <Button
+        android:id="@+id/btn_addHotel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="호텔 추가하기" />
+
+
+    <Button
+        android:id="@+id/hotel_refresh"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="새로고침" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+</LinearLayout>
+
