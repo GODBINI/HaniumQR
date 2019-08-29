@@ -134,7 +134,11 @@ public class MainActivity extends AppCompatActivity {
                                 String userID = editText.getText().toString();
                                 senddata senddata = new senddata(email2,2);
                                 mDatabase.child("User").child(userID).setValue(senddata);
-
+                                Intent intent = new Intent(MainActivity.this,GuestMainActivity.class);
+                                intent.putExtra("userID",userID);
+                                intent.putExtra("email",email2);
+                                startActivity(intent);
+                                finish();
                             }
                         })
                         .create()

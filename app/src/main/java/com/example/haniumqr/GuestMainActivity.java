@@ -13,8 +13,7 @@ import android.widget.Button;
 
 import java.util.ArrayList;
 
-
-public class HostMainActivity extends AppCompatActivity {
+public class GuestMainActivity extends AppCompatActivity {
 
     ViewPager pager;
     Bundle payFragmentbundle; //1
@@ -22,19 +21,19 @@ public class HostMainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_host_main);
+        setContentView(R.layout.activity_guest_main);
 
         pager = (ViewPager)findViewById(R.id.pager);
-        Button btn_first = (Button)findViewById(R.id.btn_first2);
-        Button btn_second = (Button)findViewById(R.id.btn_second2);
-        Button btn_third = (Button)findViewById(R.id.btn_third2);
-        Button btn_fourth = (Button)findViewById(R.id.btn_fourth2);
+        Button btn_first2 = (Button)findViewById(R.id.btn_first2);
+        Button btn_second2 = (Button)findViewById(R.id.btn_second2);
+        Button btn_third2 = (Button)findViewById(R.id.btn_third2);
+        Button btn_fourth2 = (Button)findViewById(R.id.btn_fourth2);
         Intent intent = getIntent();
 
         payFragmentbundle = new Bundle(1); //2
         payFragmentbundle.putString("userID",intent.getStringExtra("userID")); //2
 
-        pagerAdapter pagerAdapter = new pagerAdapter(getSupportFragmentManager());
+        GuestMainActivity.pagerAdapter pagerAdapter = new GuestMainActivity.pagerAdapter(getSupportFragmentManager());
         pager.setAdapter(pagerAdapter);
         pager.setCurrentItem(0);
 
@@ -47,14 +46,14 @@ public class HostMainActivity extends AppCompatActivity {
             }
         };
 
-        btn_first.setOnClickListener(movePageListener);
-        btn_first.setTag(0);
-        btn_second.setOnClickListener(movePageListener);
-        btn_second.setTag(1);
-        btn_third.setOnClickListener(movePageListener);
-        btn_third.setTag(2);
-        btn_fourth.setOnClickListener(movePageListener);
-        btn_fourth.setTag(3);
+        btn_first2.setOnClickListener(movePageListener);
+        btn_first2.setTag(0);
+        btn_second2.setOnClickListener(movePageListener);
+        btn_second2.setTag(1);
+        btn_third2.setOnClickListener(movePageListener);
+        btn_third2.setTag(2);
+        btn_fourth2.setOnClickListener(movePageListener);
+        btn_fourth2.setTag(3);
     }
 
     private class pagerAdapter extends FragmentPagerAdapter
@@ -70,21 +69,21 @@ public class HostMainActivity extends AppCompatActivity {
             switch(position)
             {
                 case 0:
-                    HostCalendar hostCalendar = new HostCalendar();
-                    hostCalendar.setArguments(payFragmentbundle);
-                    return hostCalendar;
+                    guest_confirm guestConfirm = new guest_confirm();
+                    guestConfirm.setArguments(payFragmentbundle);
+                    return guestConfirm;
                 case 1:
-                    HostAdmin hostAdmin = new HostAdmin(); //3
-                    hostAdmin.setArguments(payFragmentbundle); //3
-                    return hostAdmin; //3
+                    guest_info guestInfo = new guest_info(); //3
+                    guestInfo.setArguments(payFragmentbundle); //3
+                    return guestInfo; //3
                 case 2:
-                    HostMsg hostMsg = new HostMsg();
-                    hostMsg.setArguments(payFragmentbundle);
-                    return hostMsg;
+                    guest_Msg guestMsg = new guest_Msg();
+                    guestMsg.setArguments(payFragmentbundle);
+                    return guestMsg;
                 case 3:
-                    HostInfo hostInfo = new HostInfo();
-                    hostInfo.setArguments(payFragmentbundle);
-                    return hostInfo;
+                    guest_search guestSearch = new guest_search();
+                    guestSearch.setArguments(payFragmentbundle);
+                    return guestSearch;
                 default:
                     return null;
             }

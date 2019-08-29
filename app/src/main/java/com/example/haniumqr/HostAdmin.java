@@ -1,10 +1,12 @@
 package com.example.haniumqr;
 
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
@@ -14,15 +16,23 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -33,8 +43,10 @@ public class HostAdmin extends Fragment {
     String str="";//빈 문자열 String 객체
 
     Button btn_addHotel;
+    private FirebaseDatabase firebaseDatabase;
     private DatabaseReference mDatabase;
-
+    private DatabaseReference rDatabase;
+    String name,detail,address;
 
 
 
@@ -47,9 +59,11 @@ public class HostAdmin extends Fragment {
         LayoutInflater inflaters=getLayoutInflater();
         final View dialogView= inflaters.inflate(R.layout.hotel_admin_dialog, null);
 
-        mDatabase = FirebaseDatabase.getInstance().getReference();
+        firebaseDatabase = FirebaseDatabase.getInstance();
+        mDatabase = firebaseDatabase.getReference();
         String userID = getArguments().getString("userID"); //4
         btn_addHotel = (Button)layout.findViewById(R.id.btn_addHotel);
+        rDatabase = firebaseDatabase.getReference("Hotel_Info").child(userID); // Database 데이터 읽을 경로
         btn_addHotel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -88,15 +102,64 @@ public class HostAdmin extends Fragment {
         Hotel_Search.setOnClickListener(new View.OnClickListener() { //파이어베이스에서 값 받아오기!
             @Override
             public void onClick(View v) {
-                String HOTEL_NAME = "호텔이름";
-                String HOTEL_STATE = "호텔주소";
-                String HOTEL_DETAIL = "호텔정보";
+                searchAdapter.init();
+                String HOTEL_NAME = name;
+                String HOTEL_STATE = address;
+                String HOTEL_DETAIL = detail;
                 SearchData searchData = new SearchData(HOTEL_NAME,HOTEL_STATE,HOTEL_DETAIL);
                 searchAdapter.addItem(searchData);
                 searchAdapter.notifyDataSetChanged();
             }
         });
 
+        rDatabase.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                String key = dataSnapshot.getKey();
+                String value = dataSnapshot.getValue(String.class);
+                if(key.equals("Hotel_name")) {
+                    name = value;
+                }
+                else if (key.equals("Hotel_detail")) {
+                    detail = value;
+                }
+                else if (key.equals("Hotel_address")) {
+                    address = value;
+                }
+                //Toast.makeText(container.getContext(),key +":"+ value.toString(),Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                String key = dataSnapshot.getKey();
+                String value = dataSnapshot.getValue(String.class);
+                if(key.equals("Hotel_name")) {
+                    name = value;
+                }
+                else if (key.equals("Hotel_detail")) {
+                    detail = value;
+                }
+                else if (key.equals("Hotel_address")) {
+                    address = value;
+                }
+
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
         return layout;
     }
 
