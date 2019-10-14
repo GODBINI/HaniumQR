@@ -30,8 +30,9 @@ public class GuestMainActivity extends AppCompatActivity {
         Button btn_fourth2 = (Button)findViewById(R.id.btn_fourth2);
         Intent intent = getIntent();
 
-        payFragmentbundle = new Bundle(1); //2
+        payFragmentbundle = new Bundle(2); //2
         payFragmentbundle.putString("userID",intent.getStringExtra("userID")); //2
+        payFragmentbundle.putString("email",intent.getStringExtra("email"));
 
         GuestMainActivity.pagerAdapter pagerAdapter = new GuestMainActivity.pagerAdapter(getSupportFragmentManager());
         pager.setAdapter(pagerAdapter);
@@ -69,21 +70,21 @@ public class GuestMainActivity extends AppCompatActivity {
             switch(position)
             {
                 case 0:
+                    guest_search guestSearch = new guest_search();
+                    guestSearch.setArguments(payFragmentbundle);
+                    return guestSearch;
+                case 1:
                     guest_confirm guestConfirm = new guest_confirm();
                     guestConfirm.setArguments(payFragmentbundle);
                     return guestConfirm;
-                case 1:
-                    guest_info guestInfo = new guest_info(); //3
-                    guestInfo.setArguments(payFragmentbundle); //3
-                    return guestInfo; //3
                 case 2:
                     guest_Msg guestMsg = new guest_Msg();
                     guestMsg.setArguments(payFragmentbundle);
                     return guestMsg;
                 case 3:
-                    guest_search guestSearch = new guest_search();
-                    guestSearch.setArguments(payFragmentbundle);
-                    return guestSearch;
+                    guest_info guestInfo = new guest_info(); //3
+                    guestInfo.setArguments(payFragmentbundle); //3
+                    return guestInfo; //3
                 default:
                     return null;
             }

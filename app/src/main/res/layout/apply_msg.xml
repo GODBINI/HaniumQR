@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <View
+        android:id="@+id/view4"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#ACA7A7"/>
+
+    <TextView
+        android:id="@+id/apply_userID_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="예약자" />
+
+    <TextView
+        android:id="@+id/apply_hotel_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="호텔이름" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/apply_reject_button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="예약 거절하기" />
+
+        <Button
+            android:id="@+id/apply_ok_button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="예약 승인/QR전송"
+            android:textColor="#FF0000"/>
+
+    </LinearLayout>
+
+    <View
+        android:id="@+id/view3"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#ACA7A7"/>
+
+</LinearLayout>

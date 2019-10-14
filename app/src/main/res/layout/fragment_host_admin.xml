@@ -21,7 +21,7 @@
 
 
     <Button
-        android:id="@+id/hotel_refresh"
+        android:id="@+id/Hotel_Search"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="새로고침" />

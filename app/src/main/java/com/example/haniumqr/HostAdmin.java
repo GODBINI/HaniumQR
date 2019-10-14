@@ -1,9 +1,7 @@
 package com.example.haniumqr;
 
 
-import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -16,13 +14,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.ListView;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.database.ChildEventListener;
@@ -31,16 +25,12 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-import java.util.ArrayList;
-import java.util.List;
-
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class HostAdmin extends Fragment {
-    TextView text;//Dialog를 통해 입력된 멤버의 정보를 출력하는 TextView 참조변수
-    String str="";//빈 문자열 String 객체
+
 
     Button btn_addHotel;
     private FirebaseDatabase firebaseDatabase;
@@ -90,7 +80,7 @@ public class HostAdmin extends Fragment {
             }
         });
 
-        Button Hotel_Search = (Button) layout.findViewById(R.id.hotel_refresh);
+        Button Hotel_Search = (Button) layout.findViewById(R.id.Hotel_Search);
         RecyclerView recyclerView = (RecyclerView) layout.findViewById(R.id.view);
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(layout.getContext());
@@ -106,9 +96,19 @@ public class HostAdmin extends Fragment {
                 String HOTEL_NAME = name;
                 String HOTEL_STATE = address;
                 String HOTEL_DETAIL = detail;
-                SearchData searchData = new SearchData(HOTEL_NAME,HOTEL_STATE,HOTEL_DETAIL);
-                searchAdapter.addItem(searchData);
-                searchAdapter.notifyDataSetChanged();
+
+                if(HOTEL_NAME == null) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
+                    builder.setMessage("먼저 호텔을 등록해주세요.")
+                            .setPositiveButton("확인",null)
+                            .create()
+                            .show();
+                }
+                else {
+                    SearchData searchData = new SearchData(HOTEL_NAME, HOTEL_STATE, HOTEL_DETAIL, userID,"");
+                    searchAdapter.addItem(searchData);
+                    searchAdapter.notifyDataSetChanged();
+                }
             }
         });
 
