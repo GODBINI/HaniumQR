@@ -32,6 +32,7 @@ public class HostMsg extends Fragment {
     private DatabaseReference rDatabase;
     String apply_userID;
     String hotel_name;
+    String Godbin;
     public HostMsg() {
         // Required empty public constructor
     }
