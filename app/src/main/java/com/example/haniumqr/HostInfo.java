@@ -9,7 +9,9 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 
 /**
@@ -23,10 +25,14 @@ public class HostInfo extends Fragment {
     }
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        String userID = getArguments().getString("userID");
-        RelativeLayout layout = (RelativeLayout)inflater.inflate(R.layout.fragment_host_info,
+        LinearLayout layout = (LinearLayout)inflater.inflate(R.layout.fragment_host_info, container, false);
+        TextView text_Myid = layout.findViewById(R.id.H_Myid);
+        TextView  text_Myemail=layout.findViewById(R.id.H_Myemail);
 
-                container, false);
+        String userID = getArguments().getString("userID");
+        String email=getArguments().getString("email");
+        text_Myid.setText(userID);
+        text_Myemail.setText(email);
         return layout;
     }
 

@@ -15,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
@@ -56,6 +57,7 @@ public class guest_search extends Fragment {
         LayoutInflater inflaters=getLayoutInflater();
 
         RecyclerView recyclerView = (RecyclerView) layout.findViewById(R.id.g_view);
+        EditText findText = (EditText)layout.findViewById(R.id.findText);
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(layout.getContext());
         recyclerView.setLayoutManager(linearLayoutManager);
@@ -73,11 +75,14 @@ public class guest_search extends Fragment {
         g_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                String find = findText.getText().toString();
                 guestSearchAdapter.init();
                 int d_count = 0;
                 while(d_count < v_count) {
-                    SearchData searchData = new SearchData(name[d_count],address[d_count],detail[d_count],userID,hostID[d_count]);
-                    guestSearchAdapter.addItem(searchData);
+                    if(name[d_count].contains(find) || address[d_count].contains(find)) {
+                        SearchData searchData = new SearchData(name[d_count], address[d_count], detail[d_count], userID, hostID[d_count]);
+                        guestSearchAdapter.addItem(searchData);
+                    }
                     d_count++;
                 }
                 guestSearchAdapter.notifyDataSetChanged();

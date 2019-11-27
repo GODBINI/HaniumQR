@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#2196F3"
+    android:background="#FFFFFF"
     android:orientation="vertical">
 
     <TextView
@@ -15,7 +15,7 @@
 
 
     <EditText
-        android:id="@+id/editText"
+        android:id="@+id/findText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
@@ -27,7 +27,7 @@
         android:id="@+id/g_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Button" />
+        android:text="찾기" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/g_view"

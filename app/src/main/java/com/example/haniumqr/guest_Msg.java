@@ -1,6 +1,7 @@
 package com.example.haniumqr;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -12,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.LinearLayout;
 
 import com.google.firebase.database.ChildEventListener;
@@ -42,6 +44,7 @@ public class guest_Msg extends Fragment {
         String userID = getArguments().getString("userID");
         LinearLayout layout = (LinearLayout) inflater.inflate(R.layout.fragment_guest__msg, container, false);
         RecyclerView recyclerView = (RecyclerView) layout.findViewById(R.id.guestMsgRecyclerView);
+        Button guestMsgWriteButton = (Button)layout.findViewById(R.id.guest_write_button);
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(layout.getContext());
         recyclerView.setLayoutManager(linearLayoutManager);
@@ -85,6 +88,15 @@ public class guest_Msg extends Fragment {
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
 
+            }
+        });
+
+        guestMsgWriteButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getContext(),MsgWriteActivity.class);
+                intent.putExtra("userID",userID);
+                startActivity(intent);
             }
         });
         return layout;
